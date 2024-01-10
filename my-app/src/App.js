@@ -1,11 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
+
 function Header(props){
   console.log('props', props, props.title);
   return <header>
     <h1><a href="/">{props.title}</a></h1>
   </header>
 }
+
 function Nav(props){
   const lis = []
   for(let i=0; i<props.topics.length; i++){
@@ -18,12 +20,14 @@ function Nav(props){
     </ol>
   </nav>
 }
+
 function Article(props){
   return <article>
     <h2>{props.title}</h2>
     {props.body}
   </article>
 }
+
 function App() {
   const topics = [
     {id:1, title:'html', body:'html is ...'},
