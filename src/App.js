@@ -7,7 +7,7 @@ function Header(props){
   return <header>                    
     <h1><a href="/">{props.title}</a></h1>   
   </header>
-}   // JSX(JavaScript Xml) - 리액트에서 HTML 작성하는 방식 의미
+}  // JSX(JavaScript Xml) : 리액트에서 HTML 작성하는 방식 의미
 
 function Nav(){
   return <nav>
@@ -27,6 +27,11 @@ function Article(props){
 }
 
 function App() {
+  const topics = [
+    {id:1, title:'html', body:'html is ...'},
+    {id:2, title:'css', body:'css is ...'},
+    {id:3, title:'javascript', body:'javascript is ...'},
+  ]
   return (
     <div>
       <Header title="WEB"></Header>
