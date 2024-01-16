@@ -39,11 +39,18 @@ function Nav(props) {
 }
 
 function App() {
+  const mode = 'WELCOME';
   const topics = [
     { id: 1, title: 'html', body: 'html is ...' },
     { id: 2, title: 'css', body: 'css is ...' },
     { id: 3, title: 'javascript', body: 'javascript is ...' },
   ]
+  let content = null;
+  if ( mode === 'WELCOME'){
+    content = <Article title="Welcome" body="Hello, WEB"></Article>
+  } else if ( mode === 'READ'){
+    content = <Article title="Read" body="Hello, Read"></Article>
+  }
   return (
     <div>
       <Header title="WEB" onChangeMode={()=>{
@@ -52,7 +59,7 @@ function App() {
       <Nav topics={topics} onChangeMode={(id)=>{
         alert(id);
       }}></Nav>    {/* "topics"가 아니라 {}로 하면 문자열이 아니라 있는 그대로 전달됨. */}
-      <Article title="Welcome" body="Hello, WEB"></Article>
+      {content}
     </div>
   );
 }
