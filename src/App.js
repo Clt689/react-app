@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-
+import { useState } from 'react';
 // Header, Nav, Article = 함수형 컴포넌트
 
 function Article(props) {
@@ -39,7 +39,8 @@ function Nav(props) {
 }
 
 function App() {
-  const mode = 'WELCOME';
+  const _mode = useState('WELCOME');     // 일반 지역변수지만, state'상태'로 업그레이드
+  console.log('_mode', _mode);
   const topics = [
     { id: 1, title: 'html', body: 'html is ...' },
     { id: 2, title: 'css', body: 'css is ...' },
@@ -54,10 +55,10 @@ function App() {
   return (
     <div>
       <Header title="WEB" onChangeMode={()=>{
-        alert('Header');
+        mode = 'WELCOME';
       }}></Header>
       <Nav topics={topics} onChangeMode={(id)=>{
-        alert(id);
+        mode = 'READ';
       }}></Nav>    {/* "topics"가 아니라 {}로 하면 문자열이 아니라 있는 그대로 전달됨. */}
       {content}
     </div>
