@@ -27,7 +27,7 @@ function Nav(props) {
     lis.push(<li key={t.id}>
       <a id={t.id} href={'read/' + t.id} onClick={event=>{
         event.preventDefault();
-        props.onChangeMode(event.target.id);
+        props.onChangeMode(Number(event.target.id));
       }}>{t.title}</a>
       </li>)   // 동적으로 만들어주는 태그 
   }
@@ -38,9 +38,12 @@ function Nav(props) {
   </nav>
 }
 
-function App() {
-  const _mode = useState('WELCOME');     // 일반 지역변수지만, state'상태'로 업그레이드
-  console.log('_mode', _mode);
+function App() {                         // useState의 인자(='WELCOME')는 state의 초기값 = 0번쨰 인덱스의 값 = mode
+  // const _mode = useState('WELCOME');     // 일반 지역변수지만, state'상태'로 업그레이드
+  // const mode = _mode[0];       // 배열의 0번째 => 상태의 값을 읽을 때 사용 / 1번째 => 상태의 값을 변경할 때 사용
+  // console.log('_mode', _mode);
+  const [mode, setMode] = useState('WELCOME');   // 위 3줄과 같은 코드
+  const [id, setId] = useState(null);
   const topics = [
     { id: 1, title: 'html', body: 'html is ...' },
     { id: 2, title: 'css', body: 'css is ...' },
@@ -50,15 +53,24 @@ function App() {
   if ( mode === 'WELCOME'){
     content = <Article title="Welcome" body="Hello, WEB"></Article>
   } else if ( mode === 'READ'){
-    content = <Article title="Read" body="Hello, Read"></Article>
+    let title, body = null;
+    for(let i=0; i<topics.length; i++){
+      console.log(topics[i].id, id);
+      if(topics[i].id === id){
+        title = topics[i].title;
+        body = topics[i].body;
+      }
+    }
+    content = <Article title={title} body={body}></Article>
   }
   return (
     <div>
       <Header title="WEB" onChangeMode={()=>{
-        mode = 'WELCOME';
+        setMode('WELCOME');
       }}></Header>
-      <Nav topics={topics} onChangeMode={(id)=>{
-        mode = 'READ';
+      <Nav topics={topics} onChangeMode={(_id)=>{
+        setMode('READ');
+        setId(_id);
       }}></Nav>    {/* "topics"가 아니라 {}로 하면 문자열이 아니라 있는 그대로 전달됨. */}
       {content}
     </div>
