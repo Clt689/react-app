@@ -62,6 +62,8 @@ function App() {                         // useState의 인자(='WELCOME')는 st
       }
     }
     content = <Article title={title} body={body}></Article>
+  } else if(mode === 'CREATE'){
+    content = 
   }
   return (
     <div>
@@ -73,6 +75,10 @@ function App() {                         // useState의 인자(='WELCOME')는 st
         setId(_id);
       }}></Nav>    {/* "topics"가 아니라 {}로 하면 문자열이 아니라 있는 그대로 전달됨. */}
       {content}
+      <a href="/create" onClick={event=>{
+        event.preventDefault();
+        setMode('CREATE');
+      }}>Create</a>
     </div>
   );
 }
