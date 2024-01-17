@@ -82,8 +82,12 @@ function App() {                         // useState의 인자(='WELCOME')는 st
   } else if (mode === 'CREATE') {
     content = <Create onCreate={(_title, _body) => {
       const newTopic = {id:nextId, title:_title, body:_body};
-      topics.push(newTopic);
-      setTopics(topics);
+      const newTopics = [...topics]
+      newTopics.push(newTopic);
+      setTopics(newTopics);
+      setMode('READ');
+      setId(nextId);
+      setNextId(nextId+1);
     }}></Create>  // Create는 꽤 복잡한 UI를 갖고있기 때문에, 별도의 컴포넌트<Create>로 만듦
   }
   return (
