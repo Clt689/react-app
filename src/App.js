@@ -38,10 +38,15 @@ function Nav(props) {
   </nav>
 }
 
-function Create(){
+function Create(props){
   return <article>
     <h2>Create</h2>
-    <form>
+    <form onSubmit={event=>{
+      event.preventDefault();
+      const title = event.target.title.value;
+      const body = event.target.body.value;
+      props.onCreate(title, body);
+    }}>
       <p><input type="text" name="title" placeholder='title'/></p>
       <p><textarea name="body" placeholder='body'></textarea></p>
       <p><input type="submit" value="Create"></input></p>
@@ -56,7 +61,7 @@ function App() {                         // useState의 인자(='WELCOME')는 st
   const [mode, setMode] = useState('WELCOME');   // 위 3줄과 같은 코드
   const [id, setId] = useState(null);
   const [nextId, setNextId] = useState(4);
-  const [topics, setTopics] = useState([
+  const [topics, setTopics] = useState([                 // topics를 useState()를 통해 상태로 승격
     { id: 1, title: 'html', body: 'html is ...' },
     { id: 2, title: 'css', body: 'css is ...' },
     { id: 3, title: 'javascript', body: 'javascript is ...' },
@@ -76,7 +81,12 @@ function App() {                         // useState의 인자(='WELCOME')는 st
     content = <Article title={title} body={body}></Article>
   } 
   else if ( mode === "CREATE"){
-    content = <Create></Create>
+    content = <Create onCreate={(_title, _body)=>{
+      const newTopic = {id:nextId,title:_title, body:_body}
+      const newTopics = [...topics]
+      topics.push(newTopic);
+      setTopics(topics);
+    }}></Create>
   }
   return (
     <div>
