@@ -80,9 +80,9 @@ function App() {                         // useState의 인자(='WELCOME')는 st
     }
     content = <Article title={title} body={body}></Article>
   } 
-  else if ( mode === "CREATE"){
+  else if ( mode === "CREATE" ){
     content = <Create onCreate={(_title, _body)=>{
-      const newTopic = {id:nextId,title:_title, body:_body}
+      const newTopic = {id:nextId, title:_title, body:_body}
       const newTopics = [...topics]
       topics.push(newTopic);
       setTopics(topics);
