@@ -38,19 +38,9 @@ function Nav(props) {
   </nav>
 }
 
-function Create(props) {
+function Create(){
   return <article>
     <h2>Create</h2>
-    <form onSubmit={event=>{
-      event.preventDefault();         // create를 눌러 제출할 때, reload가 일어나지 않게 하기 위함.
-      const title = event.target.title.value;    // 이벤트가 발생한 타겟 => <form>태그를 가리킴    
-      const body = event.target.body.value;
-      props.onCreate(title, body);
-    }}>
-      <p><input type="text" name="title" placeholder='title' /></p>   {/* 제목 */}
-      <p><textarea name="body" placeholder='body'></textarea></p>    {/* 본문 */}
-      <p><input type="submit" value="Create"></input></p>
-    </form>
   </article>
 }
 
@@ -79,16 +69,9 @@ function App() {                         // useState의 인자(='WELCOME')는 st
       }
     }
     content = <Article title={title} body={body}></Article>
-  } else if (mode === 'CREATE') {
-    content = <Create onCreate={(_title, _body) => {
-      const newTopic = {id:nextId, title:_title, body:_body};
-      const newTopics = [...topics]
-      newTopics.push(newTopic);
-      setTopics(newTopics);
-      setMode('READ');
-      setId(nextId);
-      setNextId(nextId+1);
-    }}></Create>  // Create는 꽤 복잡한 UI를 갖고있기 때문에, 별도의 컴포넌트<Create>로 만듦
+  } 
+  else if ( mode === "CREATE"){
+    content = <Create></Create>
   }
   return (
     <div>
@@ -100,8 +83,8 @@ function App() {                         // useState의 인자(='WELCOME')는 st
         setId(_id);
       }}></Nav>    {/* "topics"가 아니라 {}로 하면 문자열이 아니라 있는 그대로 전달됨. */}
       {content}
-      <a href="/create" onClick={event => {
-        event.preventDefault();
+      <a href="/create" onClick={event=>{
+        event.preventDefault();        // Create 링크 클릭했을 때, url이 바뀌지 않도록 처리.
         setMode('CREATE');
       }}>Create</a>
     </div>
