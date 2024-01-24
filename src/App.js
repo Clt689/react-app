@@ -38,16 +38,32 @@ function Nav(props) {
   </nav>
 }
 
-function Create(props){
+function Create(props) {
   return <article>
     <h2>Create</h2>
-    <form onSubmit={event=>{
+    <form onSubmit={event => {
       event.preventDefault();
       const title = event.target.title.value;
       const body = event.target.body.value;
       props.onCreate(title, body);
     }}>
-      <p><input type="text" name="title" placeholder='title'/></p>
+      <p><input type="text" name="title" placeholder='title' /></p>
+      <p><textarea name="body" placeholder='body'></textarea></p>
+      <p><input type="submit" value="Create"></input></p>
+    </form>
+  </article>
+}
+
+function Update(props){
+  return <article>
+    <h2>Create</h2>
+    <form onSubmit={event => {
+      event.preventDefault();
+      const title = event.target.title.value;
+      const body = event.target.body.value;
+      props.onUpdate(title, body);
+    }}>
+      <p><input type="text" name="title" placeholder='title' /></p>
       <p><textarea name="body" placeholder='body'></textarea></p>
       <p><input type="submit" value="Create"></input></p>
     </form>
@@ -67,6 +83,7 @@ function App() {                         // useState의 인자(='WELCOME')는 st
     { id: 3, title: 'javascript', body: 'javascript is ...' },
   ]);
   let content = null;
+  let contextControl = null;   // let = 지역변수
   if (mode === 'WELCOME') {
     content = <Article title="Welcome" body="Hello, WEB"></Article>
   } else if (mode === 'READ') {
@@ -79,17 +96,22 @@ function App() {                         // useState의 인자(='WELCOME')는 st
       }
     }
     content = <Article title={title} body={body}></Article>
-  } 
-  else if ( mode === "CREATE" ){
-    content = <Create onCreate={(_title, _body)=>{
-      const newTopic = {id:nextId, title:_title, body:_body}
+    contextControl = <li><a href={'/update/'+id} onClick={event=>{
+      event.preventDefault();
+      setMode('UPDATE');
+    }}>Update</a></li>
+  } else if (mode === "CREATE") {
+    content = <Create onCreate={(_title, _body) => {
+      const newTopic = { id: nextId, title: _title, body: _body }
       const newTopics = [...topics]             // topics를 복제한 복제본
       newTopics.push(newTopic);
       setTopics(newTopics);
       setMode('READ');
       setId(nextId);
-      setNextId(nextId+1);
+      setNextId(nextId + 1);
     }}></Create>
+  } else if ( mode === "UPDATE"){
+    content = <Update></Update>
   }
   return (
     <div>
@@ -101,10 +123,13 @@ function App() {                         // useState의 인자(='WELCOME')는 st
         setId(_id);
       }}></Nav>    {/* "topics"가 아니라 {}로 하면 문자열이 아니라 있는 그대로 전달됨. */}
       {content}
-      <a href="/create" onClick={event=>{
-        event.preventDefault();        // Create 링크 클릭했을 때, url이 바뀌지 않도록 처리.
-        setMode('CREATE');
-      }}>Create</a>
+      <ul>
+        <li><a href="/create" onClick={event => {
+          event.preventDefault();        // Create 링크 클릭했을 때, url이 바뀌지 않도록 처리.
+          setMode('CREATE');
+        }}>Create</a></li>
+        {contextControl}
+      </ul>
     </div>
   );
 }
