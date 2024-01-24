@@ -83,9 +83,9 @@ function App() {                         // useState의 인자(='WELCOME')는 st
   else if ( mode === "CREATE" ){
     content = <Create onCreate={(_title, _body)=>{
       const newTopic = {id:nextId, title:_title, body:_body}
-      const newTopics = [...topics]
-      topics.push(newTopic);
-      setTopics(topics);
+      const newTopics = [...topics]             // topics를 복제한 복제본
+      newTopics.push(newTopic);
+      setTopics(newTopics);
     }}></Create>
   }
   return (
