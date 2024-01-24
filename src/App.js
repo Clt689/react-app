@@ -86,6 +86,9 @@ function App() {                         // useState의 인자(='WELCOME')는 st
       const newTopics = [...topics]             // topics를 복제한 복제본
       newTopics.push(newTopic);
       setTopics(newTopics);
+      setMode('READ');
+      setId(nextId);
+      setNextId(nextId+1);
     }}></Create>
   }
   return (
